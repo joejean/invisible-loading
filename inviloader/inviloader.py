@@ -1,8 +1,15 @@
-import psycopg2 as ps
+import psycopg2 as pg
 
 conn = pg.connect(database="invisibleloading", user="postgres", password="police12345")
 cur = conn.cursor()
-cur.execute("CREATE TABLE test(id serial PRIMARY KEY, name varchar, age integer);")
+cur.execute("CREATE TABLE place(placeID serial PRIMARY KEY, name varchar);")
+cur.execute("CREATE TABLE city(placeID serial PRIMARY KEY REFERENCES place(placeID));")
+cur.execute("CREATE TABLE message(messageID serial PRIMARY KEY, broswerUsed varchar(20), creationDate TIMESTAMP , locationIP varchar(20), content TEXT);")
+cur.execute("CREATE TABLE comment(messageID serial PRIMARY KEY REFERENCES message(messageID), content TEXT );")
+cur.execute("CREATE TABLE organization(organizationID serial PRIMARY KEY, name varchar(30) );")
+cur.execute("CREATE TABLE company(organizationID serial PRIMARY KEY REFERENCES organization(organizationID) );")
+cur.execute("CREATE TABLE continent(placeID serial PRIMARY KEY REFERENCES place(placeID));")
+cur.execute("CREATE TABLE country(placeID serial PRIMARY KEY REFERENCES place(placeID));")
 conn.commit()
 cur.close()
 conn.close()
