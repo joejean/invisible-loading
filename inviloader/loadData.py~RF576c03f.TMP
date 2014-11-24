@@ -1,0 +1,38 @@
+#In this script we will load the data from the files to the db
+import psycopg2 as pg
+import csv, codecs, unicodecsv
+
+def connectToDB():
+
+  conn = pg.connect(database="inviloading", user="postgres", password="police12345")
+  return conn
+
+def closeDBConnection(conn):
+  conn.close()
+
+
+
+#Place data
+def loadPlace():
+  placeFile = open("../data/place.csv", "r")
+  #placeFile = codecs.open("../data/place.csv","r", encoding="utf-8")
+  #places = csv.reader(placeFile, delimiter="|")
+  places = unicodecsv.reader(placeFile, encoding= 'utf-8',delimiter="|")
+  conn = connectToDB()
+  cur = conn.cursor()
+  iterPlaces = iter(places)
+  next(iterPlaces)
+  for row in iterPlaces:
+    #print row[1]
+    cur.execute("INSERT INTO place(placeID, name) VALUES (%s, %s)", (row[0], row[1]))
+
+  cur.close()
+  conn.close()
+  placeFile.close()
+
+loadPlace()
+
+
+#cur.close()
+#conn.close()
+
