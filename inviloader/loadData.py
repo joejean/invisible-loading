@@ -326,7 +326,7 @@ def loadPost():
   cur = conn.cursor()
   posts.next() #ignore the first line of the CSV
   for row in posts:
-    cur.execute("INSERT INTO post(postID, imageFile, language, content) VALUES (%s, %s, %s);", (row[0], row[1],row[5], row[6]))
+    cur.execute("INSERT INTO post(postID, language, content) VALUES (%s, %s, %s);", (row[0], row[5], row[6]))
   postFile.close()
   conn.commit()
   cur.close()
@@ -480,84 +480,85 @@ def loadHasType():
 
 #Measuring how long it takes to copy/load the data into the tables
 
-start = time.time()
-loadPlace()
-end = time.time()
-placeLoadTime = end - start
+# start = time.time()
+# loadPlace()
+# end = time.time()
+# placeLoadTime = end - start
 
-start = time.time()
-loadContinent()
-end = time.time()
-continentLoadTime = end - start
+# start = time.time()
+# loadContinent()
+# end = time.time()
+# continentLoadTime = end - start
 
-start = time.time()
-loadCountry()
-updateCountry()
-end = time.time()
-countryLoadTime = end - start
+# start = time.time()
+# loadCountry()
+# updateCountry()
+# end = time.time()
+# countryLoadTime = end - start
 
-start = time.time()
-loadCity()
-updateCity()
-end = time.time()
-cityLoadTime = end - start
+# start = time.time()
+# loadCity()
+# updateCity()
+# end = time.time()
+# cityLoadTime = end - start
 
-start = time.time()
-loadPerson()
-updatePerson()
-end = time.time()
-personLoadTime = end - start
+# start = time.time()
+# loadPerson()
+# updatePerson()
+# end = time.time()
+# personLoadTime = end - start
 
-start = time.time()
-loadMessage()
-updateMessage()
-end = time.time()
-messageLoadTime = end - start
+# start = time.time()
+# loadMessage()
+# updateMessage()
+# end = time.time()
+# messageLoadTime = end - start
 
-start = time.time()
-loadComment()
-updateComment()
-end = time.time()
-commentLoadTime = end - start
+# start = time.time()
+# loadComment()
+# updateComment()
+# end = time.time()
+# commentLoadTime = end - start
 
-start = time.time()
-loadTag()
-end = time.time()
-tagLoadTime = end - start
+# start = time.time()
+# loadTag()
+# end = time.time()
+# tagLoadTime = end - start
 
-start = time.time()
-loadTagClass()
-updateTagClass()
-end = time.time()
-tagClassLoadTime = end - start
+# start = time.time()
+# loadTagClass()
+# updateTagClass()
+# end = time.time()
+# tagClassLoadTime = end - start
 
 
-start = time.time()
-loadOrganization()
-updateOrganization()
-end = time.time()
-organizationLoadTime = end - start
+# start = time.time()
+# loadOrganization()
+# updateOrganization()
+# end = time.time()
+# organizationLoadTime = end - start
 
-start = time.time()
-loadCompany()
-end = time.time()
-companyLoadTime = end - start
+# start = time.time()
+# loadCompany()
+# end = time.time()
+# companyLoadTime = end - start
 
-start = time.time()
-loadUniversity()
-end = time.time()
-universityLoadTime = end - start
+# start = time.time()
+# loadUniversity()
+# end = time.time()
+# universityLoadTime = end - start
 
-start = time.time()
-loadPost()
-updatePost()
-end = time.time()
-postLoadTime = end - start
 
 start = time.time()
 loadForum()
 end = time.time()
 forumLoadTime = end - start
+
+start = time.time()
+#loadPost()
+updatePost()
+end = time.time()
+postLoadTime = end - start
 
 start = time.time()
 loadKnows()
