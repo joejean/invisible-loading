@@ -555,7 +555,7 @@ end = time.time()
 forumLoadTime = end - start
 
 start = time.time()
-#loadPost()
+loadPost()
 updatePost()
 end = time.time()
 postLoadTime = end - start
