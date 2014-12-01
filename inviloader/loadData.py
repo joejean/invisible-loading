@@ -3,9 +3,8 @@ import psycopg2 as pg
 import csv, time
 
 def connectToDB():
-  conn = pg.connect(database="inviloading", user="postgres", password="police12345")
+  conn = pg.connect(database="inviloading", user="postgres", password="dbfall2014", host ="localhost")
   return conn
-
 
 #Place data
 def loadPlace():
@@ -480,73 +479,73 @@ def loadHasType():
 
 #Measuring how long it takes to copy/load the data into the tables
 
-# start = time.time()
-# loadPlace()
-# end = time.time()
-# placeLoadTime = end - start
+start = time.time()
+loadPlace()
+end = time.time()
+placeLoadTime = end - start
 
-# start = time.time()
-# loadContinent()
-# end = time.time()
-# continentLoadTime = end - start
+start = time.time()
+loadContinent()
+end = time.time()
+continentLoadTime = end - start
 
-# start = time.time()
-# loadCountry()
-# updateCountry()
-# end = time.time()
-# countryLoadTime = end - start
+start = time.time()
+loadCountry()
+updateCountry()
+end = time.time()
+countryLoadTime = end - start
 
-# start = time.time()
-# loadCity()
-# updateCity()
-# end = time.time()
-# cityLoadTime = end - start
+start = time.time()
+loadCity()
+updateCity()
+end = time.time()
+cityLoadTime = end - start
 
-# start = time.time()
-# loadPerson()
-# updatePerson()
-# end = time.time()
-# personLoadTime = end - start
+start = time.time()
+loadPerson()
+updatePerson()
+end = time.time()
+personLoadTime = end - start
 
-# start = time.time()
-# loadMessage()
-# updateMessage()
-# end = time.time()
-# messageLoadTime = end - start
+start = time.time()
+loadMessage()
+updateMessage()
+end = time.time()
+messageLoadTime = end - start
 
-# start = time.time()
-# loadComment()
-# updateComment()
-# end = time.time()
-# commentLoadTime = end - start
+start = time.time()
+loadComment()
+updateComment()
+end = time.time()
+commentLoadTime = end - start
 
-# start = time.time()
-# loadTag()
-# end = time.time()
-# tagLoadTime = end - start
+start = time.time()
+loadTag()
+end = time.time()
+tagLoadTime = end - start
 
-# start = time.time()
-# loadTagClass()
-# updateTagClass()
-# end = time.time()
-# tagClassLoadTime = end - start
+start = time.time()
+loadTagClass()
+updateTagClass()
+end = time.time()
+tagClassLoadTime = end - start
 
 
-# start = time.time()
-# loadOrganization()
-# updateOrganization()
-# end = time.time()
-# organizationLoadTime = end - start
+start = time.time()
+loadOrganization()
+updateOrganization()
+end = time.time()
+organizationLoadTime = end - start
 
-# start = time.time()
-# loadCompany()
-# end = time.time()
-# companyLoadTime = end - start
+start = time.time()
+loadCompany()
+end = time.time()
+companyLoadTime = end - start
 
-# start = time.time()
-# loadUniversity()
-# end = time.time()
-# universityLoadTime = end - start
+start = time.time()
+loadUniversity()
+end = time.time()
+universityLoadTime = end - start
 
 
 start = time.time()
