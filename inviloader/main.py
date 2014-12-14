@@ -3,7 +3,7 @@ import psycopg2 as pg
 import time
 
 def connectToDB():
-  conn = pg.connect(database="inviloading", user="postgres", password="dbfall2014", host ="localhost")
+  conn = pg.connect(database="inviloading", user="postgres", password="police12345", host ="localhost")
   return conn
 
 fileInput = open("../tests/input.txt")

@@ -1,7 +1,7 @@
 import psycopg2 as pg
 import time
 
-conn = pg.connect(database="inviloading", user="postgres", password="dbfall2014", host ="localhost")
+conn = pg.connect(database="inviloading", user="postgres", password="police12345", host ="localhost")
 cur = conn.cursor()
 
 start = time.time()
