@@ -3,7 +3,7 @@ import csv, time
 import config
 
 
-path = "C:\Users\Joe Jean\.virtualenvs\dbfinalproject\MAIN\data\\"
+path = config.data_path
 
 conn = pg.connect(database=config.db['db'], user=config.db['user'], password=config.db['password'],\
  host =config.db['host'])

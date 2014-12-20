@@ -10,4 +10,6 @@ db = {
          'db':'invisible-loading'
 }
 
+#The patha of the folder that contains the csv data files
+data_path = "C:\Users\Joe Jean\.virtualenvs\dbfinalproject\MAIN\data\\"
 
