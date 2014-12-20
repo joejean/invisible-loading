@@ -7,7 +7,7 @@ db = {
          'user': 'postgres',
          'password': 'police12345',
          'default-db': 'postgres',
-         'db':'invisible-loading'
+         'db':'invisibleloading'
 }
 
 #The patha of the folder that contains the csv data files
