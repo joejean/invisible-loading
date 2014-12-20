@@ -1,8 +1,8 @@
 import psycopg2 as pg
-import time
+import time, config
 
-conn = pg.connect(database="inviloading", user="postgres", password="police12345", host ="localhost")
-cur = conn.cursor()
+conn = pg.connect(database=config.db['db'], user=config.db['user'], password=config.db['password'],\
+ host =config.db['host'])
 
 start = time.time()
 personCommentPerson = "\

@@ -1,9 +1,10 @@
 from queryAPI import query1Raw, query2Raw
 import psycopg2 as pg
-import time
+import time, config
 
 def connectToDB():
-  conn = pg.connect(database="inviloading", user="postgres", password="police12345", host ="localhost")
+  conn = pg.connect(database=config.db['db'], user=config.db['user'], password=config.db['password'],\
+ host =config.db['host'])
   return conn
 
 fileInput = open("../tests/input.txt")

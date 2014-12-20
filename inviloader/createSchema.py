@@ -1,171 +1,208 @@
-#db isolation intro https://blog.engineyard.com/2010/a-gentle-introduction-to-isolation-levels
 import psycopg2 as pg
 import time
 
-conn = pg.connect(database="inviloading", user="postgres", password="dbfall2014", host ="localhost")
+conn = pg.connect(database="inviloading2", user="postgres", password="police12345", host ="localhost")
 cur = conn.cursor()
 
 start = time.time()
-cur.execute("CREATE TABLE place(placeID integer PRIMARY KEY, name varchar(100));")
+cur.execute("CREATE TABLE comment(id integer, creationDate TIMESTAMP, locationIP varchar, \
+  browserUsed varchar, content TEXT);")
 end = time.time()
-placeCreateTime = end - start
+comment = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE continent(continentID integer PRIMARY KEY REFERENCES place(placeID));")
+cur.execute("CREATE TABLE comment_hasCreator_person(Comment_id integer, Person_id integer);")
 end = time.time()
-continentCreateTime = end - start
+comment_hasCreator_person = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE country(countryID integer PRIMARY KEY REFERENCES place(placeID), isPartOf integer REFERENCES\
- continent(continentID) );")
+cur.execute("CREATE TABLE comment_isLocatedIn_place(Comment_id integer, Place_id integer );")
 end = time.time()
-countryCreateTime = end - start
+comment_isLocatedIn_place = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE city(cityID integer PRIMARY KEY REFERENCES place(placeID), isPartOf integer REFERENCES\
- country(countryID));")
+cur.execute("CREATE TABLE comment_replyOf_comment(Comment_id integer, Comment_id2 integer );")
 end = time.time()
-cityCreateTime = end - start
+comment_replyOf_comment = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE person(personID integer PRIMARY KEY, firstName varchar(35), lastName varchar(35),\
- gender varchar(10), birthday date, email varchar(100), speaks varchar(100), browserUsed varchar(30),\
- locationIP varchar(25), creationDate TIMESTAMP, isLocatedIn integer REFERENCES city(cityID));")
+cur.execute("CREATE TABLE comment_replyOf_post(Comment_id integer, Post_id integer );")
 end = time.time()
-personCreateTime = end - start
+comment_replyOf_post = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE message(messageID integer PRIMARY KEY, browserUsed varchar(30), creationDate TIMESTAMP ,\
- hasCreator integer REFERENCES person(personID), isLocatedIn integer REFERENCES country(countryID),\
- locationIP varchar(25));")
+cur.execute("CREATE TABLE forum(id integer, title varchar, creationDate TIMESTAMP);")
 end = time.time()
-messageCreateTime = end - start
+forum = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE comment(commentID integer PRIMARY KEY REFERENCES message(messageID), replyOf integer REFERENCES\
- message(messageID), content TEXT );")
+cur.execute("CREATE TABLE forum_containerOf_post(Forum_id integer, Post_id integer );")
 end = time.time()
-commentCreateTime = end - start
+forum_containerOf_post = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE organization(organizationID integer PRIMARY KEY, name varchar(75),\
- isLocatedIn integer REFERENCES place(placeID) );")
+cur.execute("CREATE TABLE forum_hasMember_person(Forum_id integer, Person_id integer ,joinDate TIMESTAMP);")
 end = time.time()
-organizationCreateTime = end - start
+forum_hasMember_person = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE company(companyID integer PRIMARY KEY REFERENCES organization(organizationID));")
+cur.execute("CREATE TABLE forum_hasModerator_person(Forum_id integer,Person_id integer);")
 end = time.time()
-companyCreateTime = end - start
+forum_hasModerator_person = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE university(universityID integer PRIMARY KEY REFERENCES organization(organizationID) );")
+cur.execute("CREATE TABLE forum_hasTag_tag(Forum_id integer, Tag_id integer );")
 end = time.time()
-universityCreateTime = end - start
+forum_hasTag_tag = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE forum(forumID integer PRIMARY KEY, title varchar(100), creationDate TIMESTAMP,\
- hasModerator integer REFERENCES person(personID), isLocatedIn integer REFERENCES city(cityID));")
+cur.execute("CREATE TABLE organisation(id integer, type varchar, name varchar,\
+ url varchar);")
 end = time.time()
-forumCreateTime = end - start
+organisation = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE post(postID integer PRIMARY KEY REFERENCES message(messageID), imageFile BYTEA,\
- language varchar(4), content TEXT, container integer REFERENCES forum(forumID));")
+cur.execute("CREATE TABLE organisation_isLocatedIn_place(Organisation_id integer, Place_id integer );")
 end = time.time()
-postCreateTime = end - start
+organisation_isLocatedIn_place = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE tag(tagID integer PRIMARY KEY, name varchar(100));")
+cur.execute("CREATE TABLE person(id integer ,firstName varchar,lastName varchar,\
+  gender varchar,birthday date,creationDate TIMESTAMP, locationIP varchar, browserUsed varchar);")
 end = time.time()
-tagCreateTime = end - start
+person = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE tagclass(tagclassID integer PRIMARY KEY, name varchar(70), isSubClassOf integer REFERENCES\
- tagclass(tagclassID));")
+cur.execute("CREATE TABLE person_email_emailaddress(Person_id integer ,email varchar);")
 end = time.time()
-tagClassCreateTime = end - start
+person_email_emailaddress = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE knows(person1 integer REFERENCES person(personID), person2 integer REFERENCES person(personID));")
+cur.execute("CREATE TABLE person_hasInterest_tag(Person_id integer ,Tag_id integer );")
 end = time.time()
-knowsCreateTime = end - start
+person_hasInterest_tag = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE likes(person integer REFERENCES person(personID), post integer REFERENCES post(postID),\
- creationDate TIMESTAMP);")
+cur.execute("CREATE TABLE person_isLocatedIn_place(Person_id integer, Place_id integer);")
 end = time.time()
-likesCreateTime = end - start
+person_isLocatedIn_place = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE studyAt(person integer REFERENCES person(personID), university integer \
- REFERENCES organization(organizationID), classYear integer);")
+cur.execute("CREATE TABLE person_knows_person(Person_id integer,Person_id2 integer);")
 end = time.time()
-studyAtCreateTime = end - start
+person_knows_person = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE workAt(person integer REFERENCES person(personID), company integer \
-  REFERENCES organization(organizationID), workFrom integer);")
+cur.execute("CREATE TABLE person_likes_post(Person_id integer,Post_id integer,creationDate TIMESTAMP);")
 end = time.time()
-workAtCreateTime = end - start
-
-#No data for follow in the data set
-cur.execute("CREATE TABLE follows(followsID integer PRIMARY KEY, following integer REFERENCES person(personID),\
-  followed integer REFERENCES person(personID));")
+person_likes_post = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE hasInterest(person integer REFERENCES person(personID), tag integer REFERENCES tag(tagID));")
+cur.execute("CREATE TABLE person_speaks_language(Person_id integer,language varchar);")
 end = time.time()
-hasInterestCreateTime = end - start
+person_speaks_language = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE hasMember(forum integer REFERENCES forum(forumID), person integer REFERENCES person(personID),\
-  joinDate TIMESTAMP );")
+cur.execute("CREATE TABLE person_studyAt_organisation(Person_id integer,Organisation_id integer,\
+  classYear integer);")
 end = time.time()
-hasMemberCreateTime = end - start
+person_studyAt_organisation = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE postHasTag(post integer REFERENCES post(postID), tag integer\
- REFERENCES tag(tagID));")
+cur.execute("CREATE TABLE person_workAt_organisation(Person_id integer,Organisation_id integer,\
+  workFrom integer);")
 end = time.time()
-postHasTagCreateTime = end - start
+person_workAt_organisation = end - start
+
 
 start = time.time()
-cur.execute("CREATE TABLE forumHasTag( forum integer REFERENCES forum(forumID), tag integer REFERENCES tag(tagID) );")
+cur.execute("CREATE TABLE place(id integer,name varchar,url varchar ,type varchar);")
 end = time.time()
-forumHasTagCreateTime = end - start
+place = end - start
 
 start = time.time()
-cur.execute("CREATE TABLE hasType(tag integer REFERENCES tag(tagID), tagclass integer REFERENCES tagclass(tagclassID) );")
+cur.execute("CREATE TABLE place_isPartOf_place(Place_id integer,Place_id2 integer);")
 end = time.time()
-hasTypeCreateTime = end - start
+place_isPartOf_place = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE post(id integer,imageFile varchar,creationDate TIMESTAMP,\
+  locationIP varchar,browserUsed varchar,language varchar,content TEXT);")
+end = time.time()
+post = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE post_hasCreator_person(Post_id integer, Person_id integer);")
+end = time.time()
+post_hasCreator_person = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE post_hasTag_tag(Post_id integer,Tag_id integer);")
+end = time.time()
+post_hasTag_tag = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE post_isLocatedIn_place(Post_id integer,Place_id integer);")
+end = time.time()
+post_isLocatedIn_place = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE tag(id integer,name varchar ,url varchar);")
+end = time.time()
+tag = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE tagclass(id integer,name varchar,url varchar);")
+end = time.time()
+tagclass = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE tagclass_isSubclassOf_tagclass(TagClass_id integer,TagClass_id2 integer);")
+end = time.time()
+tagclass_isSubclassOf_tagclass = end - start
+
+start = time.time()
+cur.execute("CREATE TABLE tag_hasType_tagclass(Tag_id integer,TagClass_id integer);")
+end = time.time()
+tag_hasType_tagclass = end - start
+
 
 conn.commit()
 cur.close()
 conn.close()
 
-print "TABLE             |CREATE TIME (seconds)         "
+print "*********************CREATE SCHEMA RUNTIME*************************"
+print "TABLE                               |CREATE TIME (seconds)         "
 print "================================================="
-print "Place             |"+ str(placeCreateTime)
-print "Continent         |"+ str(continentCreateTime)
-print "Country           |"+ str(countryCreateTime)
-print "City              |"+ str(cityCreateTime)
-print "Person            |"+ str(personCreateTime)
-print "Message           |"+ str(messageCreateTime)
-print "Comment           |"+ str(commentCreateTime)
-print "Tag               |"+ str(tagCreateTime)
-print "TagClass          |"+ str(tagClassCreateTime)
-print "Organization      |"+ str(organizationCreateTime)
-print "Company           |"+ str(companyCreateTime)
-print "University        |"+ str(universityCreateTime)
-print "Post              |"+ str(postCreateTime)
-print "Forum             |"+ str(forumCreateTime)
-print "Knows             |"+ str(knowsCreateTime)
-print "Likes             |"+ str(likesCreateTime)
-print "HasInterest       |"+ str(hasInterestCreateTime)
-print "WorkAt            |"+ str(workAtCreateTime)
-print "StudyAt           |"+ str(studyAtCreateTime)
-print "ForumHasTag       |"+ str(forumHasTagCreateTime)
-print "HasMember         |"+ str(hasMemberCreateTime)
-print "PostHasTag        |"+ str(postHasTagCreateTime)
-print "HasType           |"+ str(hasTypeCreateTime)
+print "comment.csv                         |"+str(comment)
+print "comment_hasCreator_person.csv       |"+str(comment_hasCreator_person)
+print "comment_isLocatedIn_place.csv       |"+str(comment_isLocatedIn_place)
+print "comment_replyOf_comment.csv         |"+str(comment_replyOf_comment)
+print "comment_replyOf_post.csv            |"+str(comment_replyOf_post)
+print "forum.csv                           |"+str(forum)
+print "forum_containerOf_post.csv          |"+str(forum_containerOf_post)
+print "forum_hasMember_person.csv          |"+str(forum_hasMember_person)
+print "forum_hasModerator_person.csv       |"+str(forum_hasModerator_person)
+print "forum_hasTag_tag.csv                |"+str(forum_hasTag_tag)
+print "organisation.csv                    |"+str(organisation)
+print "organisation_isLocatedIn_place.csv  |"+str(organisation_isLocatedIn_place)
+print "person.csv                          |"+str(person)
+print "person_email_emailaddress.csv       |"+str(person_email_emailaddress)
+print "person_hasInterest_tag.csv          |"+str(person_hasInterest_tag)
+print "person_isLocatedIn_place.csv        |"+str(person_isLocatedIn_place)
+print "person_knows_person.csv             |"+str(person_knows_person)
+print "person_likes_post.csv               |"+str(person_likes_post)
+print "person_speaks_language.csv          |"+str(person_speaks_language)
+print "person_studyAt_organisation.csv     |"+str(person_studyAt_organisation)
+print "person_workAt_organisation.csv      |"+str(person_workAt_organisation)
+print "place.csv                           |"+str(place)
+print "place_isPartOf_place.csv            |"+str(place_isPartOf_place)
+print "post.csv                            |"+str(post)
+print "post_hasCreator_person.csv          |"+str(post_hasCreator_person)
+print "post_hasTag_tag.csv                 |"+str(post_hasTag_tag)
+print "post_isLocatedIn_place.csv          |"+str(post_isLocatedIn_place)
+print "tag.csv                             |"+str(tag)
+print "tagclass.csv                        |"+str(tagclass)
+print "tagclass_isSubclassOf_tagclass.csv  |"+str(tagclass_isSubclassOf_tagclass)
+print "tag_hasType_tagclass.csv            |"+str(tag_hasType_tagclass)
+
